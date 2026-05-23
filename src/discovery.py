@@ -12,6 +12,12 @@ from ui import (
 def discover_sessions():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+    sock.setsockopt(
+        socket.SOL_SOCKET,
+        socket.SO_REUSEADDR,
+        1
+    )
+
     sock.bind(("", DISCOVERY_PORT))
 
     success("\n[SEARCHING FOR SESSIONS]\n")
@@ -22,18 +28,23 @@ def discover_sessions():
         data, addr = sock.recvfrom(4096)
 
         try:
-            session = json.loads(data.decode())
+            print("Packet received")
+
+            session = json.loads(
+                data.decode()
+            )
 
             unique = (
                 f"{session['id']}"
-                f"-{session['ip']}"
+                f"-"
+                f"{session['ip']}"
             )
 
             if unique not in seen:
                 seen.add(unique)
 
                 info(
-                    f"[{session['id']}] "
+                    f"\n[{session['id']}] "
                     f"{session['hostname']}"
                 )
 
@@ -42,8 +53,8 @@ def discover_sessions():
                 )
 
                 print(
-                    f"IP     : {session['ip']}\n"
+                    f"IP     : {session['ip']}"
                 )
 
-        except:
-            pass
+        except Exception as e:
+            print("Error:", e)

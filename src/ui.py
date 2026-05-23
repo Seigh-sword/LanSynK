@@ -3,10 +3,10 @@ from pathlib import Path
 
 
 def banner():
-    banner_path = Path("assets/banner.txt")
+    path = Path("assets/banner.txt")
 
-    if banner_path.exists():
-        print(Fore.CYAN + banner_path.read_text())
+    if path.exists():
+        print(Fore.CYAN + path.read_text())
 
 
 def info(text):

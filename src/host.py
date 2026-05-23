@@ -12,7 +12,8 @@ from config import (
 from utils import (
     generate_lan_id,
     get_hostname,
-    get_local_ip
+    get_local_ip,
+    get_broadcast_ip
 )
 
 from ui import (
@@ -30,12 +31,18 @@ def broadcast_loop(session_data):
         1
     )
 
+    broadcast_ip = get_broadcast_ip(
+        session_data["ip"]
+    )
+
     while True:
         message = json.dumps(session_data)
 
+        print("Broadcasting session...")
+
         sock.sendto(
             message.encode(),
-            ("255.255.255.255", DISCOVERY_PORT)
+            (broadcast_ip, DISCOVERY_PORT)
         )
 
         time.sleep(BROADCAST_INTERVAL)
@@ -45,6 +52,7 @@ def start_host(folder):
     lan_id = generate_lan_id()
 
     hostname = get_hostname()
+
     ip = get_local_ip()
 
     session_data = {
@@ -57,8 +65,11 @@ def start_host(folder):
     success("\n[HOST STARTED]\n")
 
     info(f"Session ID : {lan_id}")
+
     info(f"Hostname   : {hostname}")
+
     info(f"Folder     : {folder}")
+
     info(f"IP Address : {ip}")
 
     Thread(
@@ -66,8 +77,6 @@ def start_host(folder):
         args=(session_data,),
         daemon=True
     ).start()
-
-    info("\nBroadcasting session...\n")
 
     while True:
         time.sleep(1)

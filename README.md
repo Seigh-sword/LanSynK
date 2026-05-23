@@ -19,3 +19,5 @@ and, for him to not *sign up for github and all* and, just work without a headac
 
 and, now enjoy!
 
+--- 
+Made by || **[Seigh-sword](https://github.com/Seigh-sword/)** ||

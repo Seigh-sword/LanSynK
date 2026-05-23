@@ -15,9 +15,18 @@ def get_local_ip():
 
     try:
         s.connect(("8.8.8.8", 80))
+
         ip = s.getsockname()[0]
 
     finally:
         s.close()
 
     return ip
+
+
+def get_broadcast_ip(ip):
+    parts = ip.split(".")
+
+    parts[-1] = "255"
+
+    return ".".join(parts)

@@ -5,6 +5,7 @@ from colorama import init
 from ui import banner
 
 from host import start_host
+
 from discovery import discover_sessions
 
 init(autoreset=True)
@@ -13,18 +14,29 @@ banner()
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-host", nargs="?")
-parser.add_argument("-ls", action="store_true")
+parser.add_argument(
+    "command",
+    nargs="?"
+)
+
+parser.add_argument(
+    "target",
+    nargs="?"
+)
 
 args = parser.parse_args()
 
-if args.host:
-    start_host(args.host)
+if args.command == "host":
+    start_host(args.target or ".")
 
-elif args.ls:
+elif args.command == "ls":
     discover_sessions()
 
 else:
-    print("Usage:")
-    print("  python src/main.py -host .")
-    print("  python src/main.py -ls")
+    print("Usage:\n")
+
+    print("Host current folder:")
+    print("host .\n")
+
+    print("Find sessions:")
+    print("ls")
