@@ -1,0 +1,8 @@
+{
+  "name": "LanSynK",
+  "version": "0.1.0",
+  "repo_zip": "https://github.com/Seigh-sword/LanSynK/archive/refs/heads/main.zip",
+  "install_path": "C:/Program Files/LanSynK",
+  "discovery_port": 54545,
+  "sync_port": 8765
+}
